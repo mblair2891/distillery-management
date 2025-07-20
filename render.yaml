@@ -3,19 +3,18 @@ services:
     name: distillery-management-software
     env: python
     plan: free
-    branch: master
+    branch: main
     buildCommand: |
       pip install -r requirements.txt
+      python manage.py makemigrations
       python manage.py migrate
     startCommand: gunicorn distillery_core.wsgi
     envVars:
-      - key: postgresql://postgres.hysycjjcirvjrvzgzesg:Machenna!1@aws-0-us-west-1.pooler.supabase.com:6543/postgres
-        fromDatabase:
-          name: distillery-core-db
-          property: connectionString
+      - key: DATABASE_URL
+        value: postgresql://postgres.hysycjjcirvjrvzgzesg:Machenna!1@aws-0-us-west-1.pooler.supabase.com:6543/postgres
       - key: SECRET_KEY
         value: my-secret-12345
       - key: DEBUG
         value: False
-databases:
-  - name: distillery-core-db
+      - key: PYTHONPATH
+        value: /app:/app/distillery_core
