@@ -9,7 +9,7 @@ services:
       python manage.py migrate
     startCommand: gunicorn distillery_core.wsgi
     envVars:
-      - key: DATABASE_URL
+      - key: postgresql://postgres.hysycjjcirvjrvzgzesg:Machenna!1@aws-0-us-west-1.pooler.supabase.com:6543/postgres
         fromDatabase:
           name: distillery-core-db
           property: connectionString
