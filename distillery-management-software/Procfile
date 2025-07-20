@@ -1,0 +1,1 @@
+web: gunicorn distillery_core.wsgi

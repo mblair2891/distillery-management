@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: distillery-management-software
+    env: python
+    plan: free
+    branch: master
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py migrate
+    startCommand: gunicorn distillery_core.wsgi
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: distillery-core-db
+          property: connectionString
+      - key: SECRET_KEY
+        value: my-secret-12345
+      - key: DEBUG
+        value: False
+databases:
+  - name: distillery-core-db
